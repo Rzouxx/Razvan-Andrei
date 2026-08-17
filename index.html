@@ -750,6 +750,48 @@ section { position:relative; z-index:10; padding:var(--sp-11) 0; border-bottom:1
   color:var(--c-accent); background:rgba(181,138,74,.05);
   transition:all .3s var(--ease-out); white-space:nowrap; flex-shrink:0;
 }
+
+.pdf-selector {
+  position:relative;
+}
+
+.pdf-selector summary {
+  list-style:none;
+  cursor:none;
+}
+
+.pdf-selector summary::-webkit-details-marker {
+  display:none;
+}
+
+.pdf-options {
+  position:absolute;
+  right:0;
+  top:calc(100% + 8px);
+  min-width:190px;
+  padding:6px;
+  background:var(--c-surface);
+  border:1px solid var(--c-border-2);
+  border-radius:var(--r-md);
+  box-shadow:var(--shadow-lg);
+  z-index:100;
+}
+
+.pdf-options a {
+  display:block;
+  padding:10px 12px;
+  font-family:var(--f-mono);
+  font-size:9px;
+  letter-spacing:.06em;
+  color:var(--c-text-2);
+  border-radius:var(--r-sm);
+  transition:all .25s var(--ease-out);
+}
+
+.pdf-options a:hover {
+  color:var(--c-accent);
+  background:rgba(181,138,74,.08);
+}   
 .pdf-btn:hover {
   background:rgba(181,138,74,.15); border-color:rgba(181,138,74,.45);
   transform:translateY(-1px);
@@ -1392,11 +1434,23 @@ footer {
             <a class="pdf-btn" href="assets/diplomes/pix.pdf" target="_blank" rel="noopener noreferrer">📄 PDF</a>
           </div>
           <div class="certif-row r" data-d="2">
-            <span class="certif-name">PIX Digital</span>
-            <div class="certif-actions">
-              <span class="certif-badge ok">✓ Obtenu</span>
-              <a class="pdf-btn" href="assets/diplomes/pix.pdf" target="_blank" rel="noopener noreferrer">📄 PDF</a>
-            </div>
+  <span class="certif-name">PIX Digital</span>
+  <div class="certif-actions">
+    <span class="certif-badge ok">✓ Obtenu</span>
+    
+    <details class="pdf-selector">
+      <summary class="pdf-btn">📄 PDF</summary>
+      <div class="pdf-options">
+        <a href="assets/diplomes/pix.pdf" target="_blank" rel="noopener noreferrer">
+          📄 Certification PIX
+        </a>
+        <a href="assets/diplomes/pix-2.pdf" target="_blank" rel="noopener noreferrer">
+          📄 Résultats PIX
+        </a>
+      </div>
+    </details>
+  </div>
+</div>
           </div>
           <div class="certif-row r" data-d="3">
             <span class="certif-name">Formation Azure</span>
