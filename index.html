@@ -8,6 +8,21 @@
 <meta name="author" content="Razvan ANDREI">
 <meta property="og:title" content="Razvan ANDREI — Infrastructure & Systèmes">
 <meta property="og:description" content="Profil IT Systèmes & Réseaux, Infrastructure, Cybersécurité. Bordeaux.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="Logo.jpg">
+<meta name="theme-color" content="#B58A4A">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Razvan ANDREI",
+  "jobTitle": "Technicien IT Niveau 2",
+  "worksFor": { "@type": "Organization", "name": "GBNA Santé" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Bordeaux", "addressRegion": "Nouvelle-Aquitaine", "addressCountry": "FR" },
+  "email": "mailto:razvan.andrei.pro@gmail.com",
+  "sameAs": ["https://www.linkedin.com/in/razvan-andrei-13a4a42b2/"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -418,6 +433,19 @@ img { display:block; max-width:100%; }
   border-color:var(--c-border-2); color:var(--c-text);
   transform:translateY(-4px); box-shadow:var(--shadow-md);
 }
+.btn-cv {
+  background:var(--c-text); color:var(--c-bg); border:1px solid var(--c-text);
+}
+.btn-cv:hover {
+  transform:translateY(-4px);
+  box-shadow:0 20px 50px rgba(21,18,13,.28);
+}
+.btn-arrow {
+  font-size:20px; font-weight:700; line-height:1;
+  display:inline-block; will-change:transform;
+  transition:transform .4s var(--ease-spring);
+}
+.btn-cv:hover .btn-arrow { transform:translateY(4px); }
 
 /* ── MARQUEE ── */
 .marquee-wrap {
@@ -951,6 +979,29 @@ footer {
   .btn{width:100%;justify-content:center}
   footer{padding:24px}
   .contact-display{font-size:clamp(40px,11vw,64px)}
+  /* lighter blur = smoother scrolling on phones */
+  .bg-orb{filter:blur(40px)}
+  #nav.scrolled{backdrop-filter:blur(10px) saturate(150%);-webkit-backdrop-filter:blur(10px) saturate(150%)}
+}
+
+/* ── ACCESSIBILITY: visible focus ring for keyboard navigation ── */
+a:focus-visible, button:focus-visible, .pdf-selector summary:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+.cf-field:focus-visible { outline: none; }
+
+/* ── ACCESSIBILITY: respect reduced-motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  #cur, #cur-trail, #cur-glow { display: none !important; }
+  body, a, button { cursor: auto !important; }
 }
 </style>
 </head>
@@ -1049,7 +1100,12 @@ footer {
       </div>
       <div class="hero-actions">
         <div class="hero-btns">
-          <a class="btn btn-primary magnetic" href="#experience">
+          <a class="btn btn-cv magnetic" href="CV Recherche Alternance 2026 - ANDREI Razvan - Palette Beige.pdf" download="CV_Razvan_ANDREI.pdf" aria-label="Télécharger mon CV au format PDF">
+            <span class="btn-shine"></span>
+            Télécharger mon CV
+            <span class="btn-arrow" aria-hidden="true">↓</span>
+          </a>
+          <a class="btn btn-ghost magnetic" href="#experience">
             <span class="btn-shine"></span>
             Mon expérience
           </a>
@@ -1659,6 +1715,41 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href') === '#'+cur);
   });
 }, {passive:true});
+
+/* ── PDF DROPDOWNS — auto-close ── */
+const $pdfSelectors = document.querySelectorAll('.pdf-selector');
+
+function closeAllPdfSelectors(except) {
+  $pdfSelectors.forEach(d => { if (d !== except && d.hasAttribute('open')) d.removeAttribute('open'); });
+}
+
+// Only one dropdown open at a time
+$pdfSelectors.forEach(d => {
+  d.addEventListener('toggle', () => {
+    if (d.hasAttribute('open')) closeAllPdfSelectors(d);
+  });
+});
+
+// Close when clicking anywhere outside an open dropdown (other buttons, links, page...)
+document.addEventListener('click', e => {
+  if (!e.target.closest('.pdf-selector')) closeAllPdfSelectors();
+}, true);
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeAllPdfSelectors();
+});
+
+// Close when scrolling away
+window.addEventListener('scroll', () => closeAllPdfSelectors(), {passive:true});
+
+// Close once a PDF has been picked from the dropdown
+document.querySelectorAll('.pdf-options a').forEach(a => {
+  a.addEventListener('click', () => {
+    const parent = a.closest('.pdf-selector');
+    if (parent) setTimeout(() => parent.removeAttribute('open'), 150);
+  });
+});
 
 /* ── MOBILE MENU ── */
 const $menuBtn = document.getElementById('menuBtn');
